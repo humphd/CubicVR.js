@@ -23,28 +23,20 @@
             var pdf = new CubicVR.PDF({
               src: "MobileProcessing_2011_postersA.pdf",
               callback: function() {
-                var boxMaterials = [];
-
-                for (var sides = 0; sides < 6; sides++) {
-                  boxMaterials.push(new CubicVR.Material({
-                    // HACK: Force POT sizes for textures until we fix this bug...
-                    textures: { color: pdf.getPageTexture(1, 2048, 2048) }
-                  }));
-                }
+                var material = new CubicVR.Material({
+                  // HACK: Force POT sizes for textures until we fix this bug...
+                  textures: { color: pdf.getPageTexture(1, 2048, 2048) }
+                });
 
                 // Add a box to mesh, size 1.0, apply base material and UV mapper
                 var boxMesh = CubicVR.primitives.box({
                   size: 1.0,
-                    material: boxMaterials[0],
+                    material: material,
                     uvmapper: {
                       projectionMode: CubicVR.enums.uv.projection.CUBIC,
                       scale: [1, 1, 1]
                     }
                 });
-
-                for (var sides = 0; sides < boxMaterials.length; sides++) {
-                  boxMesh.setFaceMaterial(boxMaterials[sides], sides);
-                }
 
                 boxMesh.prepare();
 
